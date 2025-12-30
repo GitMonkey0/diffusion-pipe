@@ -16,7 +16,7 @@ frame_buckets = [1, 33]
 [[directory]]  
 # 修改为您的数据集路径  
 # 图片/视频文件和对应的.txt标注文件应在此目录  
-path = '/mnt/bn/douyin-ai4se-general-wl/lht/data/t2v/'  
+path = '/mnt/bn/douyin-ai4se-general-wl/lht/data/t2v/UCF101-ZIP/dataset'  
 num_repeats = 1  
 
 # 可添加更多数据目录  
