@@ -1,0 +1,57 @@
+output_dir = './diffusion_pipe_training_runs/wan_1.3b'  
+
+dataset = './examples/wan_1_3b_dataset.toml'  
+
+epochs = 1000  
+micro_batch_size_per_gpu = 1  
+pipeline_stages = 1  
+gradient_accumulation_steps = 1  
+gradient_clipping = 1.0  
+warmup_steps = 100  
+
+eval_every_n_epochs = 1  
+eval_before_first_step = true  
+eval_micro_batch_size_per_gpu = 1  
+eval_gradient_accumulation_steps = 1  
+
+save_every_n_epochs = 5  
+checkpoint_every_n_minutes = 120  
+
+activation_checkpointing = true  
+
+partition_method = 'parameters'  
+save_dtype = 'bfloat16'  
+caching_batch_size = 1  
+steps_per_print = 1  
+video_clip_mode = 'single_beginning'  
+
+# 块交换设置 - 1.3B模型有30层  
+# 24GB显存训练图片: blocks_to_swap = 0 或不设置  
+# 24GB显存训练视频: blocks_to_swap = 16-20  
+# 显存不足时可增加此值（最大28）  
+blocks_to_swap = 16  
+
+[model]  
+type = 'wan'  
+ckpt_path = '/mnt/bn/douyin-ai4se-general-wl/lht/pretrained/Wan2.1-T2V-1.3B'  
+dtype = 'bfloat16'  
+transformer_dtype = 'float8'  
+timestep_sample_method = 'logit_normal'  
+
+[adapter]  
+type = 'lora'  
+rank = 32  
+dtype = 'bfloat16'  
+
+[optimizer]  
+type = 'AdamW8bitKahan'  
+lr = 2e-5  
+betas = [0.9, 0.99]  
+weight_decay = 0.01  
+stabilize = false  
+
+[monitoring]  
+enable_wandb = false  
+# wandb_api_key = ''  
+# wandb_tracker_name = ''  
+# wandb_run_name = ''
